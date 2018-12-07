@@ -7,7 +7,7 @@ public class FracCalc {
     public static void main(String[] args) 
     {
        System.out.println("enter two fractions and an opporator (make sure there are spaces between the fractions and the opporator)");
-    	Scanner input = new Scanner(System.in);
+       Scanner input = new Scanner(System.in);
        String answer= input.nextLine();
        System.out.println(produceAnswer(answer));
         // TODO: Read the input from the user and call produceAnswer with an equation
@@ -24,8 +24,42 @@ public class FracCalc {
      */
     public static String produceAnswer(String answer)
     { 
-       String[] second= answer.split(" ");
-       return second[2];
+        for(int i=0; i<answer.length();i++) {
+            char y=answer.charAt(i);
+            if(y=='+'||y=='-'||y=='*'||( y=='/'&& answer.charAt(i+1)==' ')) {
+                    String second=answer.substring(i+1,answer.length());
+                    int wholeEnd=second.indexOf("_");
+                    int numeratorEnd= second.indexOf("/");
+                    String whole= "whole: ";
+                    String numerator= "numerator: ";
+                    String denominator= "denominator: ";
+                    if (wholeEnd<0 && numeratorEnd <0) {
+                            wholeEnd=i;
+                            whole= "whole: "+second.substring(0,i);
+                            numerator= "numerator: 0";
+                            denominator=" denominator: 0";
+                    }
+                    else if (wholeEnd<0) {
+                            numerator= "numerator: "+second.substring(0,numeratorEnd);
+                            whole ="whole: 0";
+                            denominator= "denominator: "+ second.substring(numeratorEnd+1, second.length());
+                    }
+                    else {
+                            whole= "whole: "+second.substring(0,wholeEnd);
+                            numerator= "numerator: "+ second.substring(wholeEnd+1,numeratorEnd);
+                            denominator= "denominator: "+second.substring(numeratorEnd+1, second.length());
+                    }
+                    return whole +" "+ numerator+ " "+denominator; 
+            }
+        }
+		return answer;
+    }
+
+       /*String[] second= answer.split(" ");
+       String[] individual = second.split(_); 
+       Sting[] secondI = individual.split(/);
+       String words = "whole:"+ individual[0] + " numerator:" + individual[1] + " denominator:" + individual[2];
+       return words;*/
         // TODO: Implement this function to produce the solution to the input
         // Checkpoint 1: Return the second operand.  Example "4/5 * 1_2/4" returns "1_2/4".
         // Checkpoint 2: Return the second operand as a string representing each part.
@@ -37,7 +71,7 @@ public class FracCalc {
         //               Example "4/5 * 1_2/4" returns "1_1/5".
         
 
-    }
+    
 
     // TODO: Fill in the space below with helper methods
     
